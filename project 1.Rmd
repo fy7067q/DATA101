@@ -1,0 +1,50 @@
+---
+title: "Data cleaning project"
+author: "Fan Yang"
+date: "3/18/2019"
+output: html_document
+---
+```{r}
+library("dplyr")
+```
+
+#read the heart.csv file 
+```{r }
+tuna <- read.csv("2020.csv", TRUE)
+head(tuna)
+str(tuna)
+```
+#Check the NA values in the dataset
+#There is no Missing Value in the Dataset 
+```{r}
+is.na(tuna)
+```
+## Rename certain columns ot the dataset.
+# Renmae cp to ChestPain and fbs to fbs120
+```{r}
+tuna <- rename(tuna, fbs120=fbs, ChestPain=cp)
+head(tuna)
+```
+# Create a new variable by substracting the meanage from age
+```{r}
+tuna<- mutate(tuna, mean(age)-age)
+head(tuna)
+```
+# Filter by extracting subsets of rows from a dataset
+```{r}
+tunaa <- filter(tuna,sex <1 & oldpeak>0)
+head(tunaa)
+```
+```
+#Use select to show dataset that only contains Sex and oldpeak variables 
+```{r}
+ head(select(tunaa,sex,oldpeak))
+```
+# Create a new variable Year by adding age to 1900
+# Group the dataset by the new variable Year
+```{r}
+tunaa <- mutate(tuna, year = age+1900)
+tunaaa <- group_by(tunaa,year)
+summarize(tunaaa, chol=mean(chol))
+```
+
